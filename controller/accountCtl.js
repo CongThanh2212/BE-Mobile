@@ -1,7 +1,7 @@
 const Account = require('../model/account')
 const RequireCreate = require('../model/requireCreate')
 const Verification = require('../model/verification')
-const nodemailer =  require('nodemailer')
+const nodemailer = require('nodemailer')
 const otplib = require('otplib')
 const randomstring = require('randomstring')
 
@@ -56,7 +56,7 @@ class AccountCtl {
             
             return res.json({success: true});
         } catch (error) {
-            return res.json({success: false});
+            return res.json({success: false, mess: "Lỗi"});
         }
     }
 
@@ -76,7 +76,7 @@ class AccountCtl {
                 name: require.name
             }).save();
 
-            await RequireCreate.remove({otp: otp});
+            await RequireCreate.deleteOne({otp: otp});
 
             return res.json({
                 success: true,
@@ -90,9 +90,11 @@ class AccountCtl {
 
     // Send mail change password
     async sendMail(req, res) {
-        const email = req.query.email;
+        const email = req.body.email;
 
         if (!email) return res.json({success: false, mess: 'Chưa nhập đầy đủ thông tin'});
+        const findAccount = await Account.findOne({email: email});
+        if (!findAccount) return res.json({success: false, mess: 'Email chưa đăng ký'});
 
         try {
             const mailServer = 'systemvct@gmail.com';
@@ -116,10 +118,13 @@ class AccountCtl {
             }
             await transporter.sendMail(options);
 
-            await new Verification({
-                email: email,
-                otp: token
-            })
+            const find = await Verification.findOneAndUpdate({email: email}, {otp: token});
+            if (!find) {
+                await new Verification({
+                    email: email,
+                    otp: token
+                }).save();
+            }
 
             return res.json({success: true});
         } catch (error) {
@@ -135,11 +140,11 @@ class AccountCtl {
             const findOTP = await Verification.findOne({otp: otp});
             if (!findOTP) return res.json({success: false, mess: 'Mã OTP không chính xác'});
 
-            await Verification.remove({otp: otp});
+            await Verification.deleteOne({otp: otp});
 
             return res.json({success: true});
         } catch (error) {
-            return res.json({success: false});
+            return res.json({success: false, mess: 'Lỗi'});
         }
     }
 
@@ -164,13 +169,13 @@ class AccountCtl {
     }
 
     async login(req, res) {
-        const email = req.query.email;
-        const password = req.query.password;
+        const email = req.body.email;
+        const password = req.body.password;
 
         try {
             const account = await Account.findOne({email: email});
-            if (!account) res.json({success: false, mess: 'Tài khoản không tồn tại'});
-            if (hash(account.password) != password) res.json({success: false, mess: 'Mật khẩu không chính xác'});
+            if (!account) return res.json({success: false, mess: 'Tài khoản không tồn tại'});
+            if (hash(password) != account.password) return res.json({success: false, mess: 'Mật khẩu không chính xác'});
             
             return res.json({
                 success: true,

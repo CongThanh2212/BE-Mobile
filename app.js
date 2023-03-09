@@ -7,6 +7,7 @@ var logger = require('morgan');
 var account = require('./routes/account');
 var needLogin = require('./routes/needLogin');
 var noNeedLogin = require('./routes/noNeedLogin');
+var create = require('./routes/create');
 var db = require('./config/database');
 
 db.connect();
@@ -29,6 +30,7 @@ app.use(express.json())
 app.use('/account', account);
 app.use('/no_need_login', noNeedLogin);
 app.use('/need_login', needLogin);
+app.use('/create', create);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -12,7 +12,7 @@ const Book = new Schema({
         default: 0
     },
     language: String,
-    content: String
+    pdf: String
 })
 
 const book = mongoose.model('Book', Book);

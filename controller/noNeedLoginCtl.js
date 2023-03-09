@@ -3,6 +3,7 @@ const Technology = require('../model/technology')
 const Science = require('../model/science')
 const Economy = require('../model/economy')
 const LifeSkill = require('../model/lifeSkill')
+const Category = require('../model/category')
 
 class NoNeedLoginCtl {
 
@@ -61,7 +62,19 @@ class NoNeedLoginCtl {
         }
     }
 
+    async allBook(req, res) {
+        res.header("Access-Control-Allow-Origin", "*");
+        try {
+            const list = await Book.find();
+
+            return res.json(list);
+        } catch (error) {
+            return res.json({success: false});
+        }
+    }
+
     async limitHot(req, res) {
+        res.header("Access-Control-Allow-Origin", "*");
         try {
             const listHot = await Book.find().sort({numberOfRead: 1}).limit(3);
 
@@ -72,6 +85,7 @@ class NoNeedLoginCtl {
     }
 
     async limitNew(req, res) {
+        res.header("Access-Control-Allow-Origin", "*");
         try {
             const listNew = await Book.find().limit(-3);
 
@@ -136,6 +150,16 @@ class NoNeedLoginCtl {
             const list = await LifeSkill.find();
 
             return res.json(list);
+        } catch (error) {
+            return res.json({success: false});
+        }
+    }
+
+    async category(req, res) {
+        try {
+            const category = await Category.find();
+
+            return res.json(category)
         } catch (error) {
             return res.json({success: false});
         }

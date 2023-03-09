@@ -7,6 +7,7 @@ router.post('/add_number_of_read', noNeedLogin.addNumberOfRead)
 router.post('/related', noNeedLogin.related)
 router.post('/information_book', noNeedLogin.inforBook)
 
+router.get('/all_book', noNeedLogin.allBook)
 router.get('/limit_hot', noNeedLogin.limitHot)
 router.get('/limit_new', noNeedLogin.limitNew)
 router.get('/hot', noNeedLogin.hot)
@@ -15,6 +16,6 @@ router.get('/technology', noNeedLogin.technology)
 router.get('/science', noNeedLogin.science)
 router.get('/economy', noNeedLogin.economy)
 router.get('/lifeSkill', noNeedLogin.lifeSkill)
-//router.get('/read', noNeedLogin.read)
+router.get('/category', noNeedLogin.category)
 
 module.exports = router;
