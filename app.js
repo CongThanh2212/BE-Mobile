@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser'); // Read cookie đc gửi từ FE
 var logger = require('morgan'); // Display url
+var cors = require('cors');
 
 var account = require('./routes/account');
 var needLogin = require('./routes/needLogin');
@@ -27,6 +28,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Phân tích cú pháp body trong request type post và điền content đó vào req.body
 app.use(express.json());
+
+// Fix Access-Control-Allow-Origin
+app.use(cors());
 
 app.use('/account', account);
 app.use('/no_need_login', noNeedLogin);

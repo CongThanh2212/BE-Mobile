@@ -63,7 +63,6 @@ class NoNeedLoginCtl {
     }
 
     async allBook(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
         try {
             const list = await Book.find();
 
@@ -74,7 +73,6 @@ class NoNeedLoginCtl {
     }
 
     async limitHot(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
         try {
             const listHot = await Book.find().sort({numberOfRead: -1}).limit(3);
 
@@ -85,11 +83,10 @@ class NoNeedLoginCtl {
     }
 
     async limitNew(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
         try {
-            const listNew = await Book.find().limit(-3);
+            const listNew = await Book.find();
 
-            return res.json(listNew);
+            return res.json(listNew.slice(-3));
         } catch (error) {
             return res.json({success: false});
         }
