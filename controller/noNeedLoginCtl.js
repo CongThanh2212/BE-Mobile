@@ -30,9 +30,9 @@ class NoNeedLoginCtl {
         try {
             var listFind, list = new Array;
             switch (type) {
-                case 'technology': listFind = await Technology.find(); break;
-                case 'science': listFind = await Science.find(); break;
-                case 'economy': listFind = await Economy.find(); break;
+                case 'Công nghệ': listFind = await Technology.find(); break;
+                case 'Khoa học': listFind = await Science.find(); break;
+                case 'Kinh tế': listFind = await Economy.find(); break;
                 default: listFind = await LifeSkill.find(); break;
             }
             var number = 0;
