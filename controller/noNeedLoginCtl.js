@@ -104,7 +104,7 @@ class NoNeedLoginCtl {
 
     async new(req, res) {
         try {
-            const listNewReversed = await Book.sort({ _id: -1 });
+            const listNewReversed = await Book.find().sort({ _id: -1 });
 
             return res.json(listNewReversed);
         } catch (error) {
