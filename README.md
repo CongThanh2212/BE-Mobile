@@ -19,5 +19,8 @@ $ npm start
 ## Description
 Server cung cấp các api về sách của app BookGarden
 
+## Author
+Võ Công Thành - [thanhvc.uet@gmail.com](mailto:thanhvc.uet@gmail.com)
+
 ## Link Front-end
 https://github.com/CongThanh2212/FE-mobile
